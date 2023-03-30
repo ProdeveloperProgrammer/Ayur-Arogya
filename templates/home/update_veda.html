@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Add Vedic Knowledge{% endblock title %}</title>
+    {% block css %}
+    {% endblock css %}
+</head>
+
+<body>
+    {% block body %}
+    <section class="contact" id="contact">
+        <div class="container">
+          <span class="big-circle"></span>
+          <img src="/static/home/img/shape.png" class="square" alt="" />
+          <div class="form" action="#" id="form">
+            <div class="contact-info">
+              <h3 class="title">Add Ayurvedic  Things</h3>
+              <p class="text">
+               Add detailed things which can be published.
+              </p>
+              </div>
+            </div>
+    
+            <div class="contact-form">
+              <span class="circle one"></span>
+              <span class="circle two"></span>
+            <form action="/update_veda/" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <h3 class="title"> Add Ayurvedic Items</h3>
+                <div class="input-container">
+                    <input type="text" name="ayurveda_name" class="input"  label="ayurveda_name" required >
+                    <label for="">Ayurvedic Item Name</label>
+                    <span>Ayurvedic Item Name</span>
+                </div>
+                <div class="input-container textarea">
+                    <textarea name="detail_veda" class="input"></textarea>
+                    <label for="">Detail For ayurvedic Item</label>
+                    <span>Detail For ayurvedic Item</span>
+                </div>
+                <input type="file" name="veda_img" id="veda_img">
+                <input type="submit" value="Send" class="btn" />
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    
+    {% endblock body %}
+    {% block js %}
+    {% endblock js %}
+</body>
+
+</html>

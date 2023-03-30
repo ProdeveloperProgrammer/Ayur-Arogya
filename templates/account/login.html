@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+{% load socialaccount %}
+{%  providers_media_js %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+{% block csswrite %}
+<style>
+  #providers_container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: left;
+    padding: 2vw;
+  }
+  #providers_container > a > span > img {
+    width: 3.6vw;
+    height: 3.6vw;
+  }
+</style>
+{% endblock csswrite %}
+
+{% block content %}
+
+{% if request.method == 'POST' %}
+  <div class="alert alert-danger alert-dismissible fade show my-0" role="alert">
+    <strong>Message: </strong>Invalid credentials
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>  
+{% endif %}
+
+<h1 class="text-center py-2">{% trans "Sign In" %}</h1>
+<div class="d-flex flex-wrap justify-content-center align-center">
+  <img src="/static/logo.png" alt="Tech Coder" class="my-4">
+</div>
+<div class="mx-4">
+  <form class="login" method="POST" action="{% url 'account_login' %}">
+    {% csrf_token %}
+    <div class="form-floating mb-4 mx-5">
+      <input type="text" class="form-control" name="login" id="floatingInput" placeholder="Username">
+      <label for="floatingInput">Username</label>
+    </div>
+    <div class="form-floating mb-4 mx-5">
+      <input type="password" class="form-control" name="password" id="floatingPassword" placeholder="Password">
+      <label for="floatingPassword">Password</label>
+    </div>
+    <div class="form-check form-switch mb-4 mx-5">
+      <input class="form-check-input" type="checkbox" name="remember" id="flexSwitchCheckChecked" checked>
+      <label class="form-check-label" for="flexSwitchCheckChecked">Remember Me</label>
+    </div>
+    {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
+    <div class="mx-5 d-flex flex-wrap justify-content-between align-center">
+      <div class="mb-4">
+        <button class="primaryAction btn btn-outline-success" type="submit">{% trans "Sign In" %}</button>
+      </div>
+      <div class="mb-4">
+        <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{%   trans "Forgot Password?" %}</a>
+      </div>
+    </div>
+  </form>
+  <h1 class="text-center">Other Options</h1>
+  <div class="d-flex flex-wrap justify-content-around align-center flex-coloumn">
+    <div class="mb-4 mx-5" id="providers_container">
+      <a href="{%  provider_login_url "google" %}">
+        <span>
+          <img src="/static/google_login.svg" alt="Google Login">
+        </span>
+        <span>Login With Google</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

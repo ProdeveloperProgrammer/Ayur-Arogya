@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Home{% endblock title %} </title>
+  {% block css %}
+  {% endblock css %}
+</head>
+
+<body>
+  {% block body %}
+  <section class="home" id="home">
+    <div class="media-icons">
+      <a href="#"><i class="uil uil-facebook-f"></i></a>
+      <a href="#"><i class="uil uil-instagram"></i></a>
+      <a href="#"><i class="uil uil-twitter"></i></a>
+    </div>
+
+    <div class="swiper bg-slider">
+      <div class="swiper-wrapper">
+        {% for x in latest_veda_model %}
+        <div class="swiper-slide">
+          <img src="/fileupload/{{x.Photo}}">
+          <div class="text-content">
+            <h2 class="title">{{x.Name|slice:"0:3"}}<span>{{x.Name|slice:"3:"}}</span></h2>
+            <p>{{x.Detail|truncatechars:300}}</p>
+            <button class="read-btn">Read More <i class="uil uil-arrow-right"></i></button>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="bg-slider-thumbs">
+      <div class="swiper-wrapper thumbs-container">
+        {% for x in latest_veda_model %}
+        <img src="/fileupload/{{x.Photo}}" class="swiper-slide">
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  <section class="explore" id="explore">
+    <div class="container">
+      <!-- image row start -->
+      <div class="row">
+        <!-- image card start -->
+        {% for i in veda_model %}
+        <div class="image">
+          <img src="/fileupload/{{ i.Photo}}">
+          <div class="details">
+            <h2><span>{{i.Name|slice:"0:5"}}</span>{{i.Name|slice:"5:"|truncatechars:11}}</h2>
+            <p>{{i.Detail |safe|truncatechars:150}}</p>
+            <div class="more">
+              <a class="read-more"><i name="{{i.Detail}}" title="{{i.Name}}">Read <span>More</span></i></a>
+              <div class="icon-links">
+                <a><i class="fa-solid fa-heart"></i></a>
+                <a><i class="fa-solid fa-eye" src="/fileupload/{{ i.Photo}}"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <!-- image card end -->
+    </div>
+    <div class="popup">
+      <div class="imag">
+        <span>&times</span>
+        <img src="">
+      </div>
+      <div class="text">
+        <span>&times</span><p>Hello</p>
+      </div>
+    </div>
+  </section>
+  <section class="about section" id="about">
+    <h2>Know More about Ayurvedic Herbs</h2>
+    <p><span>Ayurveda</span> is an ancient system of medicine that originated in India over 5,000 years ago. The word
+      Ayurveda is derived from the Sanskrit words "Ayur," meaning life, and "Veda," meaning knowledge. Ayurveda is often
+      referred to as the "science of life" or the "art of living," and it focuses on promoting overall health and
+      well-being rather than just treating specific illnesses.</p>
+    <p>Ayurveda views each person as a unique individual with their own mind, body, and spirit. It recognizes that
+      everyone has a unique set of physical and mental characteristics, which is known as their dosha. There are three
+      doshas in Ayurveda: Vata, Pitta, and Kapha. Each dosha has its own set of physical and mental characteristics, and
+      everyone has a unique combination of the three.</p>
+    <p>Ayurveda believes that good health depends on the balance of the three doshas, and illness occurs when there is
+      an imbalance. The goal of Ayurvedic treatment is to restore balance and harmony to the body and mind through a
+      combination of diet, lifestyle changes, herbal remedies, and other natural therapies.</p>
+    <p>Ayurvedic medicine includes a wide range of natural remedies, including herbs, oils, and minerals. These remedies
+      are used to treat a wide range of health conditions, including digestive issues, respiratory problems, skin
+      conditions, and mental health disorders. Ayurveda also emphasizes the importance of a healthy diet and lifestyle,
+      including regular exercise, meditation, and yoga.</p>
+    <p><span>Overall,</span> Ayurveda is a holistic system of medicine that emphasizes the importance of treating the
+      whole person, rather than just the symptoms of a specific illness. It offers a natural and effective approach to
+      achieving optimal health and well-being, and it continues to be an important part of traditional medicine in India
+      and around the world.</p>
+  </section>
+  <section class="contact" id="contact">
+    <div class="container">
+      <span class="big-circle"></span>
+      <img src="/static/home/img/shape.png" class="square" alt="" />
+      <div class="form" action="#" id="form">
+        <div class="contact-info">
+          <h3 class="title">Let's get in touch</h3>
+          <p class="text">
+            If you have any problems, please help us. We are still under development
+          </p>
+
+          <div class="info">
+            <div class="information">
+              <img src="/static/home/img/location.png" class="icon" alt="" />
+              <p>Gaya, Bihar</p>
+            </div>
+            <div class="information">
+              <img src="/static/home/img/email.png" class="icon" alt="" />
+              <p>Admin@ayurarogya.com</p>
+            </div>
+            <div class="information">
+              <img src="/static/home/img/phone.png" class="icon" alt="" />
+              <p>*Phone number*</p>
+            </div>
+          </div>
+
+          <div class="social-media">
+            <p>Connect with us :</p>
+            <div class="social-icons">
+              <a href="#">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#">
+                <i class="fab fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form">
+          <span class="circle one"></span>
+          <span class="circle two"></span>
+
+          <form action="/contact/" autocomplete="off" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h3 class="title">Contact us</h3>
+            <div class="input-container">
+              <input type="text" name="name" class="input" required />
+              <label for="">Name</label>
+              <span>Name</span>
+            </div>
+            <div class="input-container">
+              <span id="text"></span>
+            </div>
+            <div class="input-container inputBox">
+              <input type="email" name="email" class="input" id="email" onkeydown="validationText()" required />
+              <label for="">Email</label>
+              <span>Email</span>
+            </div>
+            <div class="input-container textarea">
+              <textarea name="message" class="input"></textarea>
+              <label for="">Message</label>
+              <span>Message</span>
+            </div>
+            <input type="submit" value="Send" class="btn" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endblock body %}
+  {% block js %}
+  {% endblock js %}
+</body>

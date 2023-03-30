@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "E-mail Addresses" %}{% endblock %}
+
+{% block content %}
+    <h1 class="text-left ms-5">{% trans "E-mail Addresses" %}</h1>
+{% if user.emailaddress_set.all %}
+<p class="text-left ms-5">{% trans 'The following e-mail addresses are associated with your account:' %}</p>
+
+<form action="{% url 'account_email' %}" class="email_list" method="post" class="text-left ms-5">
+{% csrf_token %}
+<fieldset class="blockLabels">
+<div class="d-flex flex-wrap align-center justify-content-around flex-column">
+  {% for emailaddress in user.emailaddress_set.all %}
+<div class="ctrlHolder bg-red fs-3 ms-4">
+      <label for="email_radio_{{forloop.counter}}" class="{% if emailaddress.primary %}primary_email{%endif%}"> 
+      <input id="email_radio_{{forloop.counter}}" type="radio" name="email" {% if emailaddress.primary or user.emailaddress_set.count == 1 %}checked="checked"{%endif %} value="{{emailaddress.email}}" />
+
+        {{ emailaddress.email }}
+        {% if emailaddress.verified %}
+        <span class="verified">{% trans "Verified" %}</span>
+        {% else %}
+        <span class="unverified">{% trans "Unverified" %}</span>
+        {% endif %}
+        {% if emailaddress.primary %}<span class="primary">{% trans "Primary" %}</span>{% endif %}
+</label>
+</div>
+  {% endfor %}
+</div>
+
+<div class="buttonHolder">
+      <button class="secondaryAction btn btn-outline-success my-4 mx-3" type="submit" name="action_primary" >{% trans 'Make Primary' %}</button>
+      <button class="secondaryAction btn btn-outline-success my-4 mx-3" type="submit" name="action_send" >{% trans 'Re-send Verification' %}</button>
+      <button class="primaryAction btn btn-outline-danger my-4 mx-3" type="submit" name="action_remove" >{% trans 'Remove' %}</button>
+</div>
+
+</fieldset>
+</form>
+
+{% else %}
+<p class="text-left"><strong>{% trans 'Warning:'%}</strong> {% trans "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc." %}</p>
+
+{% endif %}
+
+  {% if can_add_email %}
+    <h2 class="ms-4">{% trans "Add E-mail Address" %}</h2>
+    {% for field in form %}
+    {% for error in field.errors %}
+    <p class="mb-0 mt-0" style="background-color: rgba(255, 8, 8, 0.596); margin-bottom: 4vw; border-radius: 0.5vw; margin-left: 2vw;margin-right: 2vw;padding:2vw 2vw;"><b>* </b>{{ error|escape }}</p> <br>
+    {% endfor %}
+    {% endfor %}
+
+    {% for error in form.non_fields_errors %}
+    <p class="mb-0 mt-0" style="background-color: rgba(255, 8, 8, 0.596); margin-bottom: 4vw; border-radius: 0.5vw; margin-left: 2vw;margin-right: 2vw;padding:2vw 2vw;"><b>* </b>{{ error|escape }}</p> <br>
+    {% endfor %}
+    <form method="post" action="{% url 'account_email' %}" class="add_email">
+        {% csrf_token %}
+        <div class="row mb-3 mx-4">
+          <label for="email" class="col-sm-2 col-form-label">E-mail address: </label>
+          <div class="col-sm-10">
+              <input type="email" name="email" placeholder="E-mail address" required="" id="id_email" class="form-control">
+          </div>
+        </div>
+        <button name="action_add" type="submit" class="ms-5 btn btn-outline-success mb-5">{% trans "Add E-mail" %}</button>
+    </form>
+  {% endif %}
+
+{% endblock %}
+
+
+{% block extra_body %}
+<script type="text/javascript">
+(function() {
+  var message = "{% trans 'Do you really want to remove the selected e-mail address?' %}";
+  var actions = document.getElementsByName('action_remove');
+  if (actions.length) {
+    actions[0].addEventListener("click", function(e) {
+      if (! confirm(message)) {
+        e.preventDefault();
+      }
+    });
+  }
+})();
+</script>
+{% endblock %}

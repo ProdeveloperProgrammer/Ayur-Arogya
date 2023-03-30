@@ -1,0 +1,4 @@
+pillow
+django
+django-allauth
+decouple

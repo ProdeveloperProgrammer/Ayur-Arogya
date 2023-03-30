@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}
+    {% comment %} block head_title and block extra head is from allauth templates  {% endcomment %}
+    {% block head_title %}{% endblock %} | Ayur Arogya</title>
+    {% block extra_head %}
+    {% endblock %}
+    <link rel="stylesheet" href="/static/home/css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="/static/home/css/style.css">
+  <link href="/static/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/bootstrap/bootstrap.min.css.map" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    {% block css %}
+    {% endblock css %}
+
+    {% block csswrite %}
+    {% endblock csswrite %}
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/png">
+</head>
+
+<body>
+  <header>
+    <a href="#" class="logo">Ayur Arogya</a>
+    <div class="group">
+      <ul class="navigation">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#explore">Explore</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="search">
+        <span class="icon">
+          <i class="uil uil-search searchBtn"></i>
+          <i class="uil uil-multiply closeBtn toggle"></i>
+        </span>
+      </div>
+      <i class="uil uil-list-ul menuToggle toggle"></i>
+    </div>
+    <div class="searchBox">
+      <input type="text" placeholder="Search Here . . ." name="search_content">
+    </div>
+  </header>
+  <section role="alert" class="my-0">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show  "style="z-index:120000"  role="alert">
+        <strong>message: </strong>{{ message }}.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %} 
+    {% endif %} 
+    
+</section>
+    {% block body %}
+    {% endblock body %}
+    {% comment %} block content is from allauth templates  {% endcomment %}
+    {% block content %}
+    {% endblock content %}
+    <!-- block extra_body is from allauth templates -->
+    {% block extra_body %}
+    {% endblock %}
+    
+  <script src="/static/home/js/swiper-bundle.min.js"></script>
+  <script src="/static/home/js/main.js"></script>
+  <script src="/static/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="/static/bootstrap/bootstrap.bundle.min.js.map"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    {% block js %}
+    {% endblock js %}
+</body>
+
+</html>
