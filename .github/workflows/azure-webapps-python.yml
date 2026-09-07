@@ -21,7 +21,6 @@ name: Build and deploy Python app to Azure Web App
 
 env:
   AZURE_WEBAPP_NAME: Ayur-Arogya  # set this to the name of your Azure Web App
-  PYTHON_VERSION: '3.8'              # set this to the Python version to use
 
 on:
   push:
@@ -41,7 +40,6 @@ jobs:
       - name: Set up Python version
         uses: actions/setup-python@v3.0.0
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
           cache: 'pip'
 
       - name: Create and start virtual environment
